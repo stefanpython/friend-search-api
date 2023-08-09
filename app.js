@@ -32,6 +32,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Define images route
+app.get("/images/:imageName", (req, res) => {
+  const imageName = req.params.imageName;
+  const imagePath = path.join(__dirname, "public/images", imageName);
+
+  res.sendFile(imagePath);
+});
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
