@@ -14,6 +14,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Create post
 exports.create_post = [
   // Handle single file upload with filed name "image"
   (req, res, next) => {
@@ -62,4 +63,31 @@ exports.create_post = [
   },
 ];
 
-// TODO: GRAB ALL USERS DATA + CREATE ROUTE
+// GET/Display all users`s posts
+exports.post_list = async (req, res, next) => {
+  try {
+    const posts = await User.find();
+
+    res.json({ message: "Success", posts });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+// GET/Display single user`s post
+exports.single_post = async (req, res, next) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "Success", user });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
