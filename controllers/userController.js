@@ -66,7 +66,12 @@ exports.create_post = [
 // GET/Display all users`s posts
 exports.post_list = async (req, res, next) => {
   try {
-    const posts = await User.find();
+    const searchQuery = req.query.search || "";
+    const regex = new RegExp(searchQuery, "i");
+
+    const posts = await User.find({
+      $or: [{ firstName: regex }, { lastName: regex }, { description: regex }],
+    });
 
     res.json({ message: "Success", posts });
   } catch (err) {
