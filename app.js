@@ -5,14 +5,14 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 // Connect to database
 async function main() {
-  const mongoURI =
-    "mongodb+srv://dementia1349:test@cluster0.zw0djkv.mongodb.net/friend-search?retryWrites=true&w=majority";
+  const mongoURI = process.env.MONGODB_URI;
   await mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
